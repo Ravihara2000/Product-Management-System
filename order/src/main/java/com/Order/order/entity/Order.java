@@ -10,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(name = "Order_table")
 public class Order {
     @Id
     private int id;
