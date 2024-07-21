@@ -2,6 +2,8 @@ package com.Order.order.controller;
 
 import com.Order.order.common.OrderResponse;
 import com.Order.order.dto.OrderDto;
+import com.Order.order.dto.OrderEventDto;
+import com.Order.order.kafka.OrderProducer;
 import com.Order.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,10 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private OrderProducer orderProducer;
+
+
     @GetMapping("/getorders")
     public List<OrderDto> getOrders() {
         return orderService.getAllOrders();
@@ -27,6 +33,10 @@ public class OrderController {
 
     @PostMapping("/addorder")
     public OrderResponse saveOrder(@RequestBody OrderDto orderDto) {
+        com.base.base.dto.OrderEventDto orderEventDto = new com.base.base.dto.OrderEventDto();
+        orderEventDto.setMessage("Order is commited successfully");
+        orderEventDto.setStatus("Pending");
+        orderProducer.sendMessage(orderEventDto);
         return orderService.saveOrder(orderDto);
     }
 
