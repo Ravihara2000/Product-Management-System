@@ -18,6 +18,7 @@
     <module>../order</module>
     <module>../product</module>
       <module>base</module>
+      <module>discoveryserver</module>
   </modules>
   <build>
     <plugins>
